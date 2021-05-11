@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+  font-size: 17px;
+}
+
+#video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+}
+
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+#btn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+#btn:hover {
+  background: #ddd;
+  color: black;
+}
+</style>
+</head>
+<body>
+
+<video autoplay muted loop id="video">
+  <source src="Bitcoin.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+<div class="content">
+  <div id="price" style="position:fixed;top:0;right:0;background:rgba(0,0,0,0.5);font-size:22px;padding:5px;">&#x221e;</div>
+  <h1>Bitcoin is the future.</h1>
+  <p>“If you don’t believe it or don’t get it, I don’t have the time to try to convince you, sorry.” - Satoshi Nakamoto</p>
+  <button id="btn">Sound On</button>
+</div>
+
+<script>
+var btn = document.getElementById("btn"), video = document.getElementById("video"), usd = new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', minimumFractionDigits:2}), price = document.getElementById('price'), tick = function() { fetch('https://api.bitaps.com/market/v1/ticker/btcusd').then(response => response.json() ).then(result => {price.innerText = usd.format(result.data['last']); setTimeout(tick(), Math.ceil(result['time'] * 1e9)); console.log(result); }); }; tick(); btn.addEventListener('click', function() {  if (video.muted) { video.muted = false; btn.innerHTML = "Sound Off"; } else { video.muted = true; btn.innerHTML = "Sound On"; } });
+</script>
+
+</body>
+</html>
