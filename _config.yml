@@ -1,3 +1,4 @@
 title: (₿)
 description: Bitcoin is the future.
 keywords: Bitcoin
+include: [".well-known"]
